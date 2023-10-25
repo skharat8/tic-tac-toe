@@ -28,31 +28,22 @@
   </head>
   <body>
     <main>
-      <section class="player-selection">
-        <img src="assets/tic-tac-toe-100.png" alt="Tic-Tac-Toe Logo" />
-        <h3>Pick Your Sign</h3>
-
-        <form id="select-player">
-          <div>
-            <input
-              type="radio"
-              name="current-player"
-              id="X"
-              value="X"
-              checked
-            />
-            <label for="X">X</label>
-          </div>
-
-          <div>
-            <input type="radio" name="current-player" id="O" value="O" />
-            <label for="O">O</label>
-          </div>
-        </form>
-
-        <a href="game.html">
-          <button type="button" form="select-player">Start Game</button>
-        </a>
+      <section class="main-game">
+        <div class="current-player">
+          <span>X Player</span>
+          <span>O Player</span>
+        </div>
+        <div class="game-container">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
       </section>
     </main>
   </body>
