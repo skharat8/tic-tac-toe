@@ -10,3 +10,4 @@
 ## Acknowledgements
 
 - Inspired by [The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe)
+- [Tic Tac Toe](https://icons8.com/icon/anJDavJRIzIg/tic-tac-toe) icons by [Icons8](https://icons8.com)

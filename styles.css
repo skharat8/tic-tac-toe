@@ -1,5 +1,5 @@
 html {
-  font-family: sans-serif;
+  font-family: "Roboto Slab", sans-serif;
   font-size: 62.5%;
   line-height: 1.25;
   box-sizing: border-box;
@@ -8,13 +8,124 @@ html {
 *,
 *::before,
 *::after {
+  padding: 0;
+  margin: 0;
   box-sizing: inherit;
 }
 
 :root {
-  --primary-color: rgb(177, 228, 219);
+  --primary-color: brown;
+  --accent-color: #d4af37;
+  --accent-color-light: palegoldenrod;
+  --light-shadow: rgb(0, 0, 0, 0.4);
 }
 
 body {
   font-size: 1.6rem;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: whitesmoke;
+}
+
+section {
+  display: flex;
+  width: 50vw;
+  height: 50vh;
+  gap: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #d4af37;
+  margin: 4rem;
+  border-radius: 20px;
+  box-shadow: 0 0 10px 10px var(--light-shadow);
+  padding-bottom: 4rem;
+}
+
+.player-selection {
+  & img {
+    width: 100px;
+  }
+
+  & h3 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  & #select-player {
+    display: flex;
+    justify-content: center;
+    width: 350px;
+    height: 80px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 4px var(--light-shadow);
+  }
+
+  & #select-player > div {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-color);
+  }
+
+  & input {
+    width: 0px;
+  }
+
+  & label {
+    flex: 1;
+    text-align: center;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--accent-color);
+    margin-left: 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
+  & input[type="radio"]:checked + label {
+    background-color: var(--accent-color-light);
+    color: var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 0 4px var(--light-shadow);
+  }
+}
+
+button {
+  font-weight: 900;
+  border: none;
+  border-radius: 5px;
+  color: wheat;
+  background-color: var(--primary-color);
+  padding: 2rem 2.4rem;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px 4px var(--light-shadow);
+  transition: all 0.2s ease-in;
+  text-transform: uppercase;
+}
+
+@media (hover: hover) {
+  button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 0px 15px 6px var(--light-shadow);
+  }
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: 0px 0px 15px 6px var(--light-shadow);
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  background-color: ghostwhite;
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--light-shadow);
 }
