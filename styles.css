@@ -26,7 +26,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: whitesmoke;
+  background-color: maroon;
 }
 
 section {
@@ -71,7 +71,6 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--primary-color);
   }
 
   & input {
