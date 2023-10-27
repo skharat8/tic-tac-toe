@@ -132,8 +132,7 @@ button:active {
     font-size: 2rem;
     font-weight: 900;
     padding: 1rem;
-    background-color: #d4af37;
-    /* background-color: wheat; */
+    background-color: gainsboro;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 4px var(--light-shadow);
   }
@@ -146,15 +145,18 @@ button:active {
 }
 
 .cell {
-  width: 100px;
-  height: 100px;
-  background-color: ghostwhite;
+  width: 10rem;
+  height: 10rem;
+  font-size: 5rem;
+  color: var(--primary-color);
+  background-color: rgb(240, 223, 223);
   border-radius: 8px;
   box-shadow: 0 0 10px var(--light-shadow);
   transition: all 0.2s ease-in;
 }
 
 .cell:hover {
+  color: rgb(240, 223, 223);
   background-color: var(--primary-color);
   transform: scale(1.1);
 }
