@@ -15,13 +15,16 @@ const gameBoard = (function () {
   const [MAX_ROWS, MAX_COLS] = [3, 3];
   let board = [];
 
-  for (let i = 0; i < MAX_ROWS; ++i) {
-    board[i] = [];
-    for (let j = 0; j < MAX_COLS; ++j) {
-      board[i].push(Cell());
+  const init = () => {
+    for (let i = 0; i < MAX_ROWS; ++i) {
+      board[i] = [];
+      for (let j = 0; j < MAX_COLS; ++j) {
+        board[i].push(Cell());
+      }
     }
-  }
+  };
 
+  init();
   const getBoard = () => board;
   const getMark = (row, col) => board[row][col].getValue();
 
@@ -30,7 +33,7 @@ const gameBoard = (function () {
     cell.setValue(sign);
   };
 
-  return { getBoard, getMark, addMark, MAX_ROWS, MAX_COLS };
+  return { init, getBoard, getMark, addMark, MAX_ROWS, MAX_COLS };
 })();
 
 const gameController = (function () {
@@ -43,14 +46,26 @@ const gameController = (function () {
   const playRound = (row, col) => {
     gameBoard.addMark(row, col, currentPlayer.sign);
 
-    if (gameOver(row, col)) alert(`${currentPlayer.sign} won!`);
-    if (++currentRound > MAX_NUM_ROUNDS) alert("Its a tie!");
+    if (gameOver(row, col)) {
+      displayController.showWinner(`${currentPlayer.sign} player won!`);
+    } else if (++currentRound > MAX_NUM_ROUNDS) {
+      displayController.showWinner("Its a tie!");
+    }
 
     switchPlayer();
   };
 
   const switchPlayer = () => {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
+    displayController.updateCurrentPlayer(currentPlayer);
+  };
+
+  const resetGame = () => {
+    gameBoard.init();
+    displayController.init();
+
+    currentRound = 1;
+    currentPlayer = player1;
     displayController.updateCurrentPlayer(currentPlayer);
   };
 
@@ -93,12 +108,20 @@ const gameController = (function () {
 
   const getCurrentPlayer = () => currentPlayer;
 
-  return { playRound, getCurrentPlayer };
+  return { playRound, getCurrentPlayer, resetGame };
 })();
 
 const displayController = (function () {
+  const cells = document.querySelectorAll(".cell");
   const board = document.querySelector(".game-container");
+  const dialog = document.querySelector("dialog");
   const currPlayerDiv = document.querySelector(".current-player");
+
+  const init = () => {
+    for (let cell of cells) {
+      cell.textContent = "";
+    }
+  };
 
   const handleBoardClick = e => {
     // Return if empty space between cells was clicked or if the cell is already filled
@@ -139,7 +162,13 @@ const displayController = (function () {
     otherPlayer.style.opacity = 0.5;
   };
 
-  updateCurrentPlayer(gameController.getCurrentPlayer());
+  const showWinner = text => {
+    dialog.textContent = text;
+    dialog.showModal();
+  };
 
-  return { updateCurrentPlayer };
+  updateCurrentPlayer(gameController.getCurrentPlayer());
+  dialog.addEventListener("close", () => gameController.resetGame());
+
+  return { init, updateCurrentPlayer, showWinner };
 })();
