@@ -63,7 +63,10 @@ const displayController = (function () {
   board.addEventListener("click", handleBoardClick);
 
   const updateGameCell = (cellButton, player) => {
+    const signColor = player.id === 1 ? "maroon" : "darkgreen";
+
     cellButton.textContent = player.sign;
+    cellButton.style.color = signColor;
   };
 
   const updateCurrentPlayer = player => {
@@ -76,9 +79,9 @@ const displayController = (function () {
         ? currPlayerDiv.lastElementChild
         : currPlayerDiv.firstElementChild;
 
-    const bodyStyle = getComputedStyle(document.body);
-    currPlayer.style.backgroundColor =
-      bodyStyle.getPropertyValue("--accent-color");
+    const signColor = player.id === 1 ? "brown" : "olivedrab";
+
+    currPlayer.style.backgroundColor = signColor;
     currPlayer.style.opacity = 1;
 
     otherPlayer.style.backgroundColor = "gainsboro";
