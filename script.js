@@ -12,8 +12,15 @@ function Cell() {
 }
 
 const gameBoard = (function () {
-  const [rows, cols] = [3, 3];
-  let board = Array.from({ length: rows }, () => Array(cols).fill(Cell()));
+  const [MAX_ROWS, MAX_COLS] = [3, 3];
+  let board = [];
+
+  for (let i = 0; i < MAX_ROWS; ++i) {
+    board[i] = [];
+    for (let j = 0; j < MAX_COLS; ++j) {
+      board[i].push(Cell());
+    }
+  }
 
   const getBoard = () => board;
   const getMark = (row, col) => board[row][col].getValue();
@@ -23,17 +30,21 @@ const gameBoard = (function () {
     cell.setValue(sign);
   };
 
-  return { getBoard, getMark, addMark };
+  return { getBoard, getMark, addMark, MAX_ROWS, MAX_COLS };
 })();
 
 const gameController = (function () {
+  const MAX_NUM_ROUNDS = 9;
+
   const [player1, player2] = [Player(1, "X"), Player(2, "O")];
   let currentPlayer = player1;
+  let currentRound = 1;
 
   const playRound = (row, col) => {
     gameBoard.addMark(row, col, currentPlayer.sign);
 
-    // Check winning condition
+    if (gameOver(row, col)) alert(`${currentPlayer.sign} won!`);
+    if (++currentRound > MAX_NUM_ROUNDS) alert("Its a tie!");
 
     switchPlayer();
   };
@@ -42,6 +53,43 @@ const gameController = (function () {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
     displayController.updateCurrentPlayer(currentPlayer);
   };
+
+  const gameOver = (row, col) => {
+    const winnerSign = currentPlayer.sign;
+
+    for (let currCol = 0; currCol <= gameBoard.MAX_COLS; ++currCol) {
+      if (currCol === gameBoard.MAX_COLS) return true;
+      if (!isValid(row, col)) continue;
+      if (gameBoard.getMark(row, currCol) !== winnerSign) break;
+    }
+
+    for (let currRow = 0; currRow <= gameBoard.MAX_ROWS; ++currRow) {
+      if (currRow === gameBoard.MAX_ROWS) return true;
+      if (!isValid(row, col)) break;
+      if (gameBoard.getMark(currRow, col) !== winnerSign) break;
+    }
+
+    if (isDiagonal(row, col)) {
+      for (let i = 0; i <= gameBoard.MAX_ROWS; ++i) {
+        if (i === 3) return true;
+        if (gameBoard.getMark(i, i) !== winnerSign) break;
+      }
+    }
+
+    if (isAntiDiagonal(row, col)) {
+      for (let i = 0; i <= gameBoard.MAX_ROWS; ++i) {
+        if (i === 3) return true;
+        if (gameBoard.getMark(i, gameBoard.MAX_ROWS - i - 1) !== winnerSign)
+          break;
+      }
+    }
+
+    return false;
+  };
+
+  const isValid = (row, col) => 0 <= row < 3 && 0 <= col < 3;
+  const isDiagonal = (row, col) => row === col;
+  const isAntiDiagonal = (row, col) => row + col === gameBoard.MAX_ROWS - 1;
 
   const getCurrentPlayer = () => currentPlayer;
 
@@ -57,7 +105,10 @@ const displayController = (function () {
     if (e.target.dataset.row === undefined || e.target.textContent) return;
 
     updateGameCell(e.target, gameController.getCurrentPlayer());
-    gameController.playRound(e.target.dataset.row, e.target.dataset.col);
+    gameController.playRound(
+      parseInt(e.target.dataset.row),
+      parseInt(e.target.dataset.col)
+    );
   };
 
   board.addEventListener("click", handleBoardClick);
